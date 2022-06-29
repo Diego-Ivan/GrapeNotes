@@ -2,6 +2,7 @@ GrapeNotes_sources += [
   'Application.vala',
 
   'Widgets/MainWindow.vala',
+  'Widgets/View.vala',
 ]
 
 executable(app_title, GrapeNotes_sources,
