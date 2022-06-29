@@ -18,7 +18,7 @@ namespace GrapeNotes {
                 return stack.visible_child_name == "empty-state";
             }
             set {
-                stack.set_visible_child_full (value? "empty-state" : "view", NONE);
+                stack.set_visible_child_full (value? "empty-state" : "view", CROSSFADE);
             }
         }
         
@@ -93,6 +93,7 @@ namespace GrapeNotes {
             base.child = box;
         
             stack.add_named (clamp, "empty-state");
+            stack.transition_duration = 200;
         }
         
         public void add_child (Gtk.Builder builder, Object child, string? type) requires (child is Gtk.Widget) {

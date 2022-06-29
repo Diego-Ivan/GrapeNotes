@@ -1,8 +1,14 @@
 GrapeNotes_sources += [
   'Application.vala',
+  'Provider.vala',
 
   'Widgets/MainWindow.vala',
+  'Widgets/NotebookView.vala',
+  'Widgets/NoteView.vala',
   'Widgets/View.vala',
+
+  'Models/Note.vala',
+  'Models/Notebook.vala',
 ]
 
 executable(app_title, GrapeNotes_sources,

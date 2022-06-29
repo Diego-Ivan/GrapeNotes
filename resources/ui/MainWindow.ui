@@ -9,25 +9,26 @@
     <property name="default-height">450</property>
     <property name="icon-name">io.github.diegoivan.Grape-Notes</property>
     <child>
-      <object class="GrapeNotesView">
-        <property name="empty-title">Add Some Notes</property>
-        <property name="empty-child">
-          <object class="GtkButton">
-            <property name="label">Add a new note</property>
-            <style>
-              <class name="pill"/>
-              <class name="suggested-action"/>
-            </style>
-          </object>
-        </property>
-        <child type="header-prefix">
-          <object class="GtkButton">
-            <property name="icon-name">open-menu-symbolic</property>
+      <object class="AdwLeaflet">
+        <child>
+          <object class="GrapeNotesNotebookView" id="notebook_view">
+            <signal name="notebook-selected" handler="on_notebook_changed"/>
           </object>
         </child>
+
         <child>
-          <object class="GtkImage">
-            <property name="icon-name">open-menu-symbolic</property>
+          <object class="AdwLeafletPage">
+            <property name="navigatable">false</property>
+            <property name="child">
+              <object class="GtkSeparator">
+                <property name="orientation">vertical</property>
+              </object>
+            </property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GrapeNotesNoteView" id="note_view">
           </object>
         </child>
       </object>
