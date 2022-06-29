@@ -5,6 +5,8 @@
   <template class="GrapeNotesNoteView" parent="GrapeNotesView">
     <property name="title">Notes</property>
     <property name="empty-title">Create a new note</property>
+    <property name="visible-header-buttons">false</property>
+
     <property name="empty-child">
       <object class="GtkButton">
         <property name="label">New Note</property>
