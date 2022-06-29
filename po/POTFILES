@@ -1,0 +1,4 @@
+data/io.github.diegoivan.Grape-Notes.desktop.in.in
+data/io.github.diegoivan.Grape-Notes.appdata.xml.in.in
+data/io.github.diegoivan.Grape-Notes.gschema.xml.in
+resources/ui/MainWindow.ui

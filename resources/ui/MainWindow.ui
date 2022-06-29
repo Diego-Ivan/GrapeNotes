@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="GrapeNotesMainWindow" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">Grape-Notes</property>
+    <property name="default-width">580</property>
+    <property name="default-height">450</property>
+    <property name="icon-name">io.github.diegoivan.Grape-Notes</property>
+    <child>
+      <object class="AdwLeaflet">
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <child>
+              <object class="AdwHeaderBar">
+                <property name="title-widget">
+                  <object class="AdwWindowTitle">
+                    <property name="title">Notebooks</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+
+  <menu id="action_menu">
+    <section>
+      <item>
+        <attribute name="label">_About Grape-Notes</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>
