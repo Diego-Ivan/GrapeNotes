@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="GrapeNotesNotebookView" parent="GrapeNotesView">
+    <property name="title">Notebooks</property>
+    <property name="empty-title">Create a new Notebook</property>
+    <property name="empty-child">
+      <object class="GtkButton">
+        <property name="label">New Notebook</property>
+        <style>
+          <class name="pill"/>
+          <class name="suggested-action"/>
+        </style>
+      </object>
+    </property>
+
+    <child>
+      <object class="GtkScrolledWindow">
+        <child>
+          <object class="GtkListView" id="list_view">
+            <property name="vexpand">true</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+  </template>
+</interface>
