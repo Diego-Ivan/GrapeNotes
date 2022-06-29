@@ -70,9 +70,9 @@ namespace GrapeNotes {
                     continue;
                 }
                 string? content_type = info.get_content_type ();
-                if (content_type == "text/plain") {
+                bool hidden = info.get_is_hidden ();
+                if ((content_type == "text/plain" || content_type == "text/markdown") && (!hidden)) {
                     notes.append (new Note (child, this));
-                    message ("Found a note");
                 }
             }
         }

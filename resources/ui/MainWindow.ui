@@ -8,6 +8,7 @@
     <property name="default-width">580</property>
     <property name="default-height">450</property>
     <property name="icon-name">io.github.diegoivan.Grape-Notes</property>
+    <signal name="close-request" handler="on_close_request"/>
     <child>
       <object class="AdwLeaflet">
         <child>
@@ -29,6 +30,24 @@
 
         <child>
           <object class="GrapeNotesNoteView" id="note_view">
+            <signal name="note-selected" handler="on_note_selected"/>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwLeafletPage">
+            <property name="navigatable">false</property>
+            <property name="child">
+              <object class="GtkSeparator">
+                <property name="orientation">vertical</property>
+              </object>
+            </property>
+          </object>
+        </child>
+
+        <child>
+          <object class="GrapeNotesNoteSourceView" id="source_view">
+            <property name="hexpand">true</property>
           </object>
         </child>
       </object>

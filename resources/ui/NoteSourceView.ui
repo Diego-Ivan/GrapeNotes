@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="GrapeNotesNoteSourceView" parent="GrapeNotesView">
+    <property name="empty-title">Select a note</property>
+
+    <child>
+      <object class="GtkOverlay">
+        <property name="vexpand">true</property>
+
+        <child type="overlay">
+          <object class="GtkProgressBar" id="progress_bar">
+            <property name="hexpand">true</property>
+            <property name="vexpand">false</property>
+            <property name="valign">start</property>
+            <style>
+              <class name="osd"/>
+            </style>
+
+            <layout>
+              <property name="measure">true</property>
+            </layout>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkScrolledWindow">
+            <child>
+              <object class="GtkSourceView" id="source_view">
+                <property name="wrap-mode">word</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </template>
+</interface>

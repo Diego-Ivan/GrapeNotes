@@ -27,7 +27,7 @@ namespace GrapeNotes {
         }
 
         private static ActionEntry[] ACTION_ENTRIES = {
-            { "quit", quit },
+            { "quit", on_quit_action },
             { "about", on_about_action }
         };
 
@@ -58,6 +58,11 @@ namespace GrapeNotes {
                 win = new GrapeNotes.MainWindow (this);
             }
             win.present ();
+        }
+
+        protected void on_quit_action () {
+            active_window.close_request ();
+            quit ();
         }
 
         private void on_about_action () {

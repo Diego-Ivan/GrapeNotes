@@ -96,7 +96,12 @@ namespace GrapeNotes {
             stack.transition_duration = 200;
         }
         
-        public void add_child (Gtk.Builder builder, Object child, string? type) requires (child is Gtk.Widget) {
+        public void add_child (Gtk.Builder builder, Object child, string? type) {
+            if (child is Gtk.EventController) {
+                base.add_child (builder, child, type);
+                return;
+            }
+
             switch (type) {
                 case "header-prefix":
                     header_bar.pack_start ((Gtk.Widget) child);

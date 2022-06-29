@@ -12,6 +12,8 @@ namespace GrapeNotes {
         private unowned Gtk.ListView list_view;
         private Gtk.SingleSelection selection_model = new Gtk.SingleSelection (null);
 
+        public signal void note_selected (Note? note);
+
         public Notebook _notebook;
         public Notebook notebook {
             get {
@@ -23,6 +25,8 @@ namespace GrapeNotes {
 
                 notebook.length_changed.connect (check_for_empty_notebook);
                 check_for_empty_notebook ();
+
+                note_selected ((Note) selection_model.get_item (selection_model.selected));
             }
         }
 
@@ -34,6 +38,15 @@ namespace GrapeNotes {
             });
             list_view.factory = factory;
             list_view.model = selection_model;
+
+            selection_model.selection_changed.connect (() => {
+                Note note = (Note) selection_model.model.get_item (selection_model.selected);
+                note_selected (note);
+            });
+
+            selection_model.items_changed.connect (() => {
+                selection_model.selected = selection_model.model.get_n_items ();
+            });
         }
 
         private void check_for_empty_notebook () {
