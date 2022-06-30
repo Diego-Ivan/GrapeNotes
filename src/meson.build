@@ -3,10 +3,11 @@ GrapeNotes_sources += [
   'Provider.vala',
 
   'Widgets/MainWindow.vala',
-  'Widgets/NotebookView.vala',
-  'Widgets/NoteSourceView.vala',
-  'Widgets/NoteView.vala',
-  'Widgets/View.vala',
+
+  'Views/NotebookView.vala',
+  'Views/NoteSourceView.vala',
+  'Views/NoteView.vala',
+  'Views/View.vala',
 
   'Models/Note.vala',
   'Models/Notebook.vala',
