@@ -4,8 +4,13 @@
     <file>style.css</file>
 
     <file preprocess="xml-stripblanks">ui/MainWindow.ui</file>
+    <file preprocess="xml-stripblanks">ui/NotebookCard.ui</file>
     <file preprocess="xml-stripblanks">ui/NotebookView.ui</file>
     <file preprocess="xml-stripblanks">ui/NoteSourceView.ui</file>
     <file preprocess="xml-stripblanks">ui/NoteView.ui</file>
   </gresource>
+
+  <gresource prefix="/io/github/diegoivan/Grape-Notes/icons/scalable/actions/">
+  <file preprocess="xml-stripblanks" alias="notepad-symbolic.svg">icons/notepad-symbolic.svg</file>
+</gresource>
 </gresources>

@@ -59,6 +59,8 @@ namespace GrapeNotes {
             var group = new SimpleActionGroup ();
             group.add_action_entries (SOURCE_VIEW_ACTIONS, this);
             insert_action_group ("source-view", group);
+
+            header_bar.add_css_class ("flat");
         }
 
         private void byte_progress_callback (int64 current_bytes, int64 total_bytes) {

@@ -1,8 +1,10 @@
 GrapeNotes_sources += [
   'Application.vala',
   'Provider.vala',
+  'XmlUtils.vala',
 
   'Widgets/MainWindow.vala',
+  'Widgets/NotebookCard.vala',
 
   'Views/NotebookView.vala',
   'Views/NoteSourceView.vala',

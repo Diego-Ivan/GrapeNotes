@@ -22,7 +22,7 @@ namespace GrapeNotes {
             var factory = new Gtk.SignalListItemFactory ();
             factory.bind.connect ((item) => {
                 var notebook = (Notebook) item.item;
-                item.child = new Gtk.Label (notebook.name);
+                item.child = new NotebookCard (notebook);
             });
 
             list_view.factory = factory;

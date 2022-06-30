@@ -6,6 +6,7 @@
   <template class="GrapeNotesNotebookView" parent="GrapeNotesView">
     <property name="title">Notebooks</property>
     <property name="empty-title">Create a new Notebook</property>
+    <property name="width-request">200k</property>
     <property name="empty-child">
       <object class="GtkButton">
         <property name="label">New Notebook</property>

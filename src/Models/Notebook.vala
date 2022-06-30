@@ -18,6 +18,8 @@ namespace GrapeNotes {
                 Idle.add (() => {
                     try {
                         collect_notes_from_file ();
+                        metadata_path = Path.build_filename (file.get_path (), "metadata.xml");
+                        fullfill_metadata ();
                     }
                     catch (Error e) {
                         critical (e.message);
@@ -28,9 +30,39 @@ namespace GrapeNotes {
             }
         }
 
+        private Xml.Doc* metadata_doc = null;
+        private Xml.Node* color_node;
+        private Xml.Node* icon_node;
+
+        private string metadata_path;
+
         public string name {
             owned get {
                 return file.get_basename ();
+            }
+        }
+
+        private string _icon_name;
+        public string icon_name {
+            get {
+                return _icon_name;
+            }
+            set {
+                _icon_name = value;
+                icon_node->set_content (value);
+                metadata_doc->save_file (metadata_path);
+            }
+        }
+
+        private Gdk.RGBA _color;
+        public Gdk.RGBA color {
+            get {
+                return _color;
+            }
+            set {
+                _color = value;
+                color_node->set_content (value.to_string ());
+                metadata_doc->save_file (metadata_path);
             }
         }
 
@@ -53,6 +85,10 @@ namespace GrapeNotes {
             Object (file: f);
         }
 
+        ~Notebook () {
+            delete metadata_doc;
+        }
+
         construct {
             notes.items_changed.connect (() => {
                 length_changed ();
@@ -73,8 +109,47 @@ namespace GrapeNotes {
                 bool hidden = info.get_is_hidden ();
                 if ((content_type == "text/plain" || content_type == "text/markdown") && (!hidden)) {
                     notes.append (new Note (child, this));
+                    message (info.get_name ());
+                }
+
+                if ((content_type == "application/xml" || content_type == "text/xml") && info.get_name () == "metadata.xml") {
+                    metadata_doc = Xml.Parser.parse_file (child.get_path ());
                 }
             }
+        }
+
+        private void fullfill_metadata () {
+            if (metadata_doc == null) {
+                warning ("Metadata document for Notebook %s was not found, creating one", name);
+                metadata_doc = new Xml.Doc ("1.0");
+
+                Xml.Node* root_element = new Xml.Node (null, "metadata");
+                metadata_doc->set_root_element (root_element);
+
+                color_node = root_element->new_text_child (null, "color", "1c71d8");
+                icon_node = root_element->new_text_child (null, "icon", "notepad-symbolic");
+
+                metadata_doc->save_file (metadata_path);
+                return;
+            }
+
+            for (Xml.Node* i = metadata_doc->get_root_element ()->children; i != null; i = i->next) {
+                if (i->type == ELEMENT_NODE) {
+                    switch (i->name) {
+                        case "color":
+                            color_node = XmlUtils.get_content_node (i, "color");
+                            _color.parse (color_node->get_content ());
+                            notify_property ("color");
+                            break;
+                        case "icon":
+                            icon_node = XmlUtils.get_content_node (i, "icon");
+                            icon_name = icon_node->get_content ();
+                            break;
+                    }
+                }
+            }
+
+            metadata_doc->save_file (metadata_path);
         }
     }
 }
