@@ -35,7 +35,7 @@ namespace GrapeNotes.Provider {
         return notebooks;
     }
 
-    public inline Notebook create_new_notebook_at_path (string path) throws Error {
+    public inline File create_file_at_path (string path) throws Error {
         File folder = File.new_for_path (path);
 
         if (folder.query_exists ()) {
@@ -43,6 +43,6 @@ namespace GrapeNotes.Provider {
         }
 
         folder.make_directory_with_parents ();
-        return new Notebook (folder);
+        return folder;
     }
 }

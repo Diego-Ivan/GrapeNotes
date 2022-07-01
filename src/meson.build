@@ -5,6 +5,7 @@ GrapeNotes_sources += [
 
   'Widgets/MainWindow.vala',
   'Widgets/NotebookCard.vala',
+  'Widgets/NewNotebookDialog.vala',
 
   'Views/NotebookView.vala',
   'Views/NoteSourceView.vala',

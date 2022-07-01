@@ -80,5 +80,13 @@ namespace GrapeNotes {
                 "@define-color accent_bg_color %s;".printf (color.to_string ())
             );
         }
+
+        [GtkCallback]
+        private void on_new_notebook_button_clicked () {
+            var dialog = new NewNotebookDialog ((Gtk.Window) get_native ());
+            dialog.notebook_created.connect ((notebook) => {
+                notebooks.append (notebook);
+            });
+        }
     }
 }

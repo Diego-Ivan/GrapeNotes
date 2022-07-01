@@ -7,27 +7,7 @@
 
 namespace GrapeNotes {
     public class Notebook : Object {
-        public File _file;
-        public File file {
-            get {
-                return _file;
-            }
-            construct {
-                _file = value;
-
-                Idle.add (() => {
-                    try {
-                        collect_notes_from_file ();
-                        fullfill_metadata ();
-                    }
-                    catch (Error e) {
-                        critical (e.message);
-                    }
-
-                    return Source.REMOVE;
-                });
-            }
-        }
+        public File file { get; construct; }
 
         private Xml.Doc* metadata_doc = null;
         private Xml.Node* color_node;
@@ -51,6 +31,8 @@ namespace GrapeNotes {
                 return _icon_name;
             }
             set {
+                return_if_fail (icon_node != null);
+
                 _icon_name = value;
                 icon_node->set_content (value);
                 metadata_doc->save_file (metadata_path);
@@ -63,6 +45,8 @@ namespace GrapeNotes {
                 return _color;
             }
             set {
+                return_if_fail (color_node != null);
+
                 _color = value;
                 color_node->set_content (value.to_string ());
                 metadata_doc->save_file (metadata_path);
@@ -101,7 +85,7 @@ namespace GrapeNotes {
             });
         }
 
-        public Notebook.with_info (File f, string icon) {
+        public Notebook.with_info (File f, string icon, Gdk.RGBA rgba) {
             Object (file: f);
 
             // Setup Metadata XML file
@@ -118,6 +102,7 @@ namespace GrapeNotes {
 
             // Set icon names and title
             icon_name = icon;
+            color = rgba;
         }
 
         ~Notebook () {
