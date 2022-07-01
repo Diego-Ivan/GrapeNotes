@@ -27,6 +27,7 @@ namespace GrapeNotes {
                 notebook.loading_completed.connect (() => {
                     select_first_note ();
                 });
+
                 select_first_note ();
                 check_for_empty_notebook ();
             }
@@ -60,7 +61,10 @@ namespace GrapeNotes {
         }
 
         private void select_first_note () {
-            note_selected ((Note?) selection_model.get_item (0));
+            if (notebook.notes.get_n_items () == 0) {
+                note_selected (null);
+            }
+            selection_model.select_item (0, true);
         }
     }
 }
