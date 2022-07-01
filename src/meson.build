@@ -8,6 +8,7 @@ GrapeNotes_sources += [
   'Widgets/IconPopover.vala',
   'Widgets/MainWindow.vala',
   'Widgets/NotebookCard.vala',
+  'Widgets/NoteCard.vala',
   'Widgets/NewNotebookDialog.vala',
 
   'Views/NotebookView.vala',

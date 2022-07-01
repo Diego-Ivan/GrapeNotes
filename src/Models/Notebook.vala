@@ -115,6 +115,18 @@ namespace GrapeNotes {
             });
         }
 
+        public void create_new_note (string title) throws Error {
+            File? note_file = File.new_for_path (Path.build_filename (file.get_path (), title));
+            if (note_file.query_exists ()) {
+                throw new Provider.ProviderError.FILE_ALREADY_EXISTS ("This Note Already Exists");
+            }
+
+            note_file.create (NONE);
+
+            Note new_note = new Note (note_file, this);
+            notes.append (new_note);
+        }
+
         public void rename_notebook (string new_name) throws Error {
             file.set_display_name_async.begin (new_name, Priority.DEFAULT, null, () => {
                 notify_property ("name");

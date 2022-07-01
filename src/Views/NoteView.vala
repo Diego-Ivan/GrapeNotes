@@ -37,7 +37,7 @@ namespace GrapeNotes {
             var factory = new Gtk.SignalListItemFactory ();
             factory.bind.connect ((item) => {
                 Note note = (Note) item.item;
-                item.child = new Gtk.Label (note.name);
+                item.child = new NoteCard (note);
             });
             list_view.factory = factory;
             list_view.model = selection_model;
@@ -50,6 +50,10 @@ namespace GrapeNotes {
             selection_model.items_changed.connect (() => {
                 selection_model.selected = selection_model.model.get_n_items ();
             });
+        }
+
+        [GtkCallback]
+        private void on_new_note () requires (notebook != null) {
         }
 
         private void check_for_empty_notebook () {

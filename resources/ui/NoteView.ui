@@ -7,6 +7,13 @@
     <property name="empty-title">Create a new note</property>
     <property name="visible-header-buttons">false</property>
 
+    <child type="header-prefix">
+      <object class="GtkButton" id="new_header_button">
+        <property name="icon-name">list-add-symbolic</property>
+        <signal name="clicked" handler="on_new_note"/>
+      </object>
+    </child>
+
     <property name="empty-child">
       <object class="GtkButton">
         <property name="label">New Note</property>
@@ -22,6 +29,10 @@
         <child>
           <object class="GtkListView" id="list_view">
             <property name="vexpand">true</property>
+            <style>
+              <class name="notebook-view"/>
+              <class name="navigation-sidebar"/>
+            </style>
           </object>
         </child>
       </object>
