@@ -14,8 +14,8 @@ namespace GrapeNotes {
 
         public signal void note_selected (Note? note);
 
-        public Notebook _notebook;
-        public Notebook notebook {
+        private Notebook? _notebook;
+        public Notebook? notebook {
             get {
                 return _notebook;
             }
@@ -24,9 +24,11 @@ namespace GrapeNotes {
                 selection_model.model = notebook.notes;
 
                 notebook.length_changed.connect (check_for_empty_notebook);
+                notebook.loading_completed.connect (() => {
+                    select_first_note ();
+                });
+                select_first_note ();
                 check_for_empty_notebook ();
-
-                note_selected ((Note) selection_model.get_item (selection_model.selected));
             }
         }
 
@@ -55,6 +57,10 @@ namespace GrapeNotes {
                 return;
             }
             empty = false;
+        }
+
+        private void select_first_note () {
+            note_selected ((Note?) selection_model.get_item (0));
         }
     }
 }

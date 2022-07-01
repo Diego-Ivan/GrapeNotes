@@ -80,6 +80,7 @@ namespace GrapeNotes {
         }
 
         public signal void length_changed ();
+        public signal void loading_completed ();
 
         public Notebook (File f) {
             Object (file: f);
@@ -95,7 +96,7 @@ namespace GrapeNotes {
             });
         }
 
-        private void collect_notes_from_file () throws Error {
+        private inline void collect_notes_from_file () throws Error {
             FileInfo? info = null;
             FileEnumerator enumerator = file.enumerate_children ("standard::*", NOFOLLOW_SYMLINKS);
 
@@ -116,9 +117,11 @@ namespace GrapeNotes {
                     metadata_doc = Xml.Parser.parse_file (child.get_path ());
                 }
             }
+
+            loading_completed ();
         }
 
-        private void fullfill_metadata () {
+        private inline void fullfill_metadata () {
             if (metadata_doc == null) {
                 warning ("Metadata document for Notebook %s was not found, creating one", name);
                 metadata_doc = new Xml.Doc ("1.0");

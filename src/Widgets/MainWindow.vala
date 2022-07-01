@@ -23,7 +23,7 @@ namespace GrapeNotes {
         }
 
         [GtkCallback]
-        private void on_notebook_changed (Notebook notebook) {
+        private void on_notebook_changed (Notebook? notebook) {
             note_view.notebook = notebook;
         }
 

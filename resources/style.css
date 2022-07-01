@@ -4,7 +4,8 @@ colorcircle {
   min-width: 30px;
 }
 
-.notebook-card {
+.notebook-view row.activatable:selected {
   border-left-style: solid;
   border-left-width: 6px;
+  border-color: @accent_bg_color;
 }

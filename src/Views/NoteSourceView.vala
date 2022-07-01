@@ -10,14 +10,10 @@ namespace GrapeNotes {
     public class NoteSourceView : View {
         [GtkChild]
         private unowned GtkSource.View source_view;
-        [GtkChild]
-        private unowned Gtk.ProgressBar progress_bar;
 
         private const ActionEntry[] SOURCE_VIEW_ACTIONS = {
-            // { "save", save_note }
+            { "save", save_note }
         };
-
-        private Adw.TimedAnimation disappear_animation;
 
         private GtkSource.File source_file = new GtkSource.File ();
 
@@ -41,18 +37,11 @@ namespace GrapeNotes {
                 source_file.location = note.file;
 
                 var loader = new GtkSource.FileLoader ((GtkSource.Buffer) source_view.buffer, source_file);
-                loader.load_async.begin (Priority.DEFAULT, null, byte_progress_callback, () => {
-                    disappear_animation.play ();
-                });
+                loader.load_async.begin (Priority.DEFAULT, null, null);
             }
         }
 
         construct {
-            var target = new Adw.PropertyAnimationTarget (progress_bar, "opacity");
-            disappear_animation = new Adw.TimedAnimation (progress_bar, 1, 0, 200, target);
-            disappear_animation.done.connect (() => {
-                progress_bar.fraction = 0;
-            });
 
             note = null;
 
@@ -61,10 +50,6 @@ namespace GrapeNotes {
             insert_action_group ("source-view", group);
 
             header_bar.add_css_class ("flat");
-        }
-
-        private void byte_progress_callback (int64 current_bytes, int64 total_bytes) {
-            progress_bar.fraction = current_bytes / total_bytes;
         }
 
         public void save_note () requires (note != null) {
@@ -80,13 +65,12 @@ namespace GrapeNotes {
             var saver = new GtkSource.FileSaver ((GtkSource.Buffer) source_view.buffer, source_file);
 
             try {
-                yield saver.save_async (Priority.DEFAULT, null, byte_progress_callback);
+                yield saver.save_async (Priority.DEFAULT, null, null);
             }
             catch (Error e) {
                 critical (e.message);
             }
 
-            disappear_animation.play ();
             message ("Nota Guardada");
         }
     }
