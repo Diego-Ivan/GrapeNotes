@@ -3,6 +3,9 @@ GrapeNotes_sources += [
   'Provider.vala',
   'XmlUtils.vala',
 
+  'ListModels/IconListModel.vala',
+
+  'Widgets/IconPopover.vala',
   'Widgets/MainWindow.vala',
   'Widgets/NotebookCard.vala',
   'Widgets/NewNotebookDialog.vala',

@@ -14,6 +14,12 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkHeaderBar">
+            <child type="start">
+              <object class="GtkButton" id="cancel_button">
+                <property name="label">Cancel</property>
+                <signal name="clicked" handler="on_cancel_button_clicked"/>
+              </object>
+            </child>
             <style>
               <class name="flat"/>
             </style>
@@ -30,6 +36,7 @@
             <property name="homogeneous">true</property>
             <property name="spacing">6</property>
 
+
             <child>
               <object class="GtkLabel">
                 <property name="label">New Notebook</property>
@@ -45,6 +52,16 @@
                 <style>
                   <class name="linked"/>
                 </style>
+
+                <child>
+                  <object class="GtkMenuButton" id="icon_button">
+                    <property name="popover">
+                      <object class="GrapeNotesIconPopover" id="icon_popover">
+                      </object>
+                    </property>
+                    <property name="icon-name" bind-source="icon_popover" bind-property="selected-icon" bind-flags="sync-create"/>
+                  </object>
+                </child>
 
                 <child>
                   <object class="GtkEntry" id="title_entry">
@@ -69,6 +86,8 @@
             <child>
               <object class="GtkLabel" id="error_label">
                 <property name="visible">false</property>
+                <property name="wrap">true</property>
+                <property name="wrap-mode">word</property>
                 <style>
                   <class name="error"/>
                 </style>

@@ -14,6 +14,8 @@ namespace GrapeNotes {
         private unowned Gtk.Entry title_entry;
         [GtkChild]
         private unowned Gtk.Label error_label;
+        [GtkChild]
+        private unowned Gtk.MenuButton icon_button;
 
         public signal void notebook_created (Notebook notebook);
 
@@ -22,8 +24,15 @@ namespace GrapeNotes {
             set_transient_for (parent);
         }
 
+        static construct {
+            typeof(IconPopover).ensure ();
+        }
+
         construct {
-            color_button.rgba = { 1, 1, 1, 1 };
+            Gdk.RGBA default_color = { 1, 1, 1, 1 };
+            default_color.parse ("#1c71d8");
+
+            color_button.rgba = default_color;
         }
 
         [GtkCallback]
@@ -32,17 +41,29 @@ namespace GrapeNotes {
                 return;
             }
 
+            if (title_entry.text.contains (".") || title_entry.text.contains (Path.DIR_SEPARATOR_S)) {
+                error_label.visible = true;
+                error_label.label = "Title cannot contain “.” or “%s” characters".printf (Path.DIR_SEPARATOR_S);
+                return;
+            }
+
             string path = Path.build_path (Path.DIR_SEPARATOR_S, Environment.get_user_data_dir (), "Notebooks", title_entry.text);
             try {
                 File? folder = Provider.create_file_at_path (path);
                 if (folder != null) {
-                    notebook_created (new Notebook.with_info (folder, "notepad-symbolic", color_button.rgba));
+                    notebook_created (new Notebook.with_info (folder, icon_button.icon_name, color_button.rgba));
+                    close ();
                 }
             }
             catch (Error e) {
                 error_label.visible = true;
                 error_label.label = e.message;
             }
+        }
+
+        [GtkCallback]
+        private void on_cancel_button_clicked () {
+            close ();
         }
     }
 }

@@ -31,6 +31,9 @@ namespace GrapeNotes {
             }
             set {
                 _selected_notebook = value;
+                if (value == null)
+                    return;
+
                 notebook_selected (value);
                 value.bind_property ("color", this, "selected-notebook-color", SYNC_CREATE);
             }
@@ -86,6 +89,8 @@ namespace GrapeNotes {
             var dialog = new NewNotebookDialog ((Gtk.Window) get_native ());
             dialog.notebook_created.connect ((notebook) => {
                 notebooks.append (notebook);
+                selection_model.select_item (notebooks.get_n_items () - 1, false);
+                empty = false;
             });
         }
     }

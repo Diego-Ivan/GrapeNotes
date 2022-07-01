@@ -10,6 +10,7 @@
     <property name="empty-child">
       <object class="GtkButton">
         <property name="label">New Notebook</property>
+        <signal name="clicked" handler="on_new_notebook_button_clicked"/>
         <style>
           <class name="pill"/>
           <class name="suggested-action"/>
