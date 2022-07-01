@@ -18,7 +18,6 @@ namespace GrapeNotes {
                 Idle.add (() => {
                     try {
                         collect_notes_from_file ();
-                        metadata_path = Path.build_filename (file.get_path (), "metadata.xml");
                         fullfill_metadata ();
                     }
                     catch (Error e) {
@@ -34,11 +33,15 @@ namespace GrapeNotes {
         private Xml.Node* color_node;
         private Xml.Node* icon_node;
 
-        private string metadata_path;
-
         public string name {
             owned get {
                 return file.get_basename ();
+            }
+        }
+
+        private string metadata_path {
+            owned get {
+                return Path.build_filename (file.get_path (), "metadata.xml");
             }
         }
 
@@ -84,6 +87,37 @@ namespace GrapeNotes {
 
         public Notebook (File f) {
             Object (file: f);
+
+            Idle.add (() => {
+                try {
+                    collect_notes_from_file ();
+                    fullfill_metadata ();
+                }
+                catch (Error e) {
+                    critical (e.message);
+                }
+
+                return Source.REMOVE;
+            });
+        }
+
+        public Notebook.with_info (File f, string icon) {
+            Object (file: f);
+
+            // Setup Metadata XML file
+            metadata_doc = new Xml.Doc ("1.0");
+            Xml.Node* root_element = new Xml.Node (null, "metadata");
+            color_node = new Xml.Node (null, "color");
+            icon_node = new Xml.Node (null, "icon");
+
+            root_element->add_child (color_node);
+            root_element->add_child (icon_node);
+
+            metadata_doc->set_root_element (root_element);
+            metadata_doc->save_file (metadata_path);
+
+            // Set icon names and title
+            icon_name = icon;
         }
 
         ~Notebook () {
@@ -93,6 +127,12 @@ namespace GrapeNotes {
         construct {
             notes.items_changed.connect (() => {
                 length_changed ();
+            });
+        }
+
+        public void rename_notebook (string new_name) throws Error {
+            file.set_display_name_async.begin (new_name, Priority.DEFAULT, null, () => {
+                notify_property ("name");
             });
         }
 
@@ -129,8 +169,8 @@ namespace GrapeNotes {
                 Xml.Node* root_element = new Xml.Node (null, "metadata");
                 metadata_doc->set_root_element (root_element);
 
-                color_node = root_element->new_text_child (null, "color", "1c71d8");
-                icon_node = root_element->new_text_child (null, "icon", "notepad-symbolic");
+                color_node = root_element->new_text_child (null, "color", "");
+                icon_node = root_element->new_text_child (null, "icon", "");
 
                 metadata_doc->save_file (metadata_path);
                 return;

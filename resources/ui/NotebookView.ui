@@ -17,6 +17,13 @@
       </object>
     </property>
 
+    <child type="header-prefix">
+      <object class="GtkButton" id="header_new_notebook_button">
+        <property name="icon-name">list-add-symbolic</property>
+        <property name="tooltip-text">Add a new notebook</property>
+      </object>
+    </child>
+
     <child>
       <object class="GtkScrolledWindow">
         <child>

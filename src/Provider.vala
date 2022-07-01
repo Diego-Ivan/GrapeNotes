@@ -8,10 +8,11 @@
 
 namespace GrapeNotes.Provider {
     public errordomain ProviderError {
-        NOT_FOLDER
+        NOT_FOLDER,
+        FILE_ALREADY_EXISTS
     }
 
-    public Notebook[] collect_notebooks_from_path (string path) throws Error {
+    public inline Notebook[] collect_notebooks_from_path (string path) throws Error {
         Notebook[] notebooks = { };
         File folder = File.new_for_path (path);
 
@@ -32,5 +33,16 @@ namespace GrapeNotes.Provider {
         }
 
         return notebooks;
+    }
+
+    public inline Notebook create_new_notebook_at_path (string path) throws Error {
+        File folder = File.new_for_path (path);
+
+        if (folder.query_exists ()) {
+            throw new ProviderError.FILE_ALREADY_EXISTS ("Notebook Already Exists");
+        }
+
+        folder.make_directory_with_parents ();
+        return new Notebook (folder);
     }
 }
