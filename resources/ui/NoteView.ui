@@ -9,7 +9,8 @@
 
     <child type="header-prefix">
       <object class="GtkButton" id="new_header_button">
-        <property name="icon-name">list-add-symbolic</property>
+        <property name="icon-name">document-new-symbolic</property>
+        <property name="tooltip-text">Create A New Note</property>
         <signal name="clicked" handler="on_new_note"/>
       </object>
     </child>
@@ -17,6 +18,7 @@
     <property name="empty-child">
       <object class="GtkButton">
         <property name="label">New Note</property>
+        <signal name="clicked" handler="on_new_note"/>
         <style>
           <class name="pill"/>
           <class name="suggested-action"/>

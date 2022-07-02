@@ -27,7 +27,6 @@ namespace GrapeNotes {
                 notebook.loading_completed.connect (() => {
                     select_first_note ();
                 });
-
                 select_first_note ();
                 check_for_empty_notebook ();
             }
@@ -46,14 +45,15 @@ namespace GrapeNotes {
                 Note note = (Note) selection_model.model.get_item (selection_model.selected);
                 note_selected (note);
             });
-
-            selection_model.items_changed.connect (() => {
-                selection_model.selected = selection_model.model.get_n_items ();
-            });
         }
 
         [GtkCallback]
         private void on_new_note () requires (notebook != null) {
+            var dialog = new NewNoteDialog (notebook, (Gtk.Window) get_native ());
+            dialog.creation_successful.connect (() => {
+                selection_model.select_item (notebook.notes.get_n_items (), true);
+                selection_model.select_item (notebook.notes.get_n_items () - 1, true);
+            });
         }
 
         private void check_for_empty_notebook () {
@@ -65,6 +65,8 @@ namespace GrapeNotes {
         }
 
         private void select_first_note () {
+            selection_model.select_item (notebook.notes.get_n_items (), true);
+
             if (notebook.notes.get_n_items () == 0) {
                 note_selected (null);
             }
