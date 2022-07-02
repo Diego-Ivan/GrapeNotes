@@ -15,6 +15,8 @@ namespace GrapeNotes {
             { "save", save_note }
         };
 
+        private bool changed { get; set; default = false; }
+
         private GtkSource.File source_file = new GtkSource.File ();
 
         private Note? _note;
@@ -23,11 +25,12 @@ namespace GrapeNotes {
                 return _note;
             }
             set {
-                if (value == null && note != null) {
-                    save_note_async.begin ();
+                if (note != null && changed) {
+                    save_note_async ();
                 }
 
                 _note = value;
+
                 if (note == null) {
                     empty = true;
                     return;
@@ -37,12 +40,13 @@ namespace GrapeNotes {
                 source_file.location = note.file;
 
                 var loader = new GtkSource.FileLoader ((GtkSource.Buffer) source_view.buffer, source_file);
-                loader.load_async.begin (Priority.DEFAULT, null, null);
+                loader.load_async.begin (Priority.DEFAULT, null, null, () => {
+                    changed = false;
+                });
             }
         }
 
         construct {
-
             note = null;
 
             var group = new SimpleActionGroup ();
@@ -50,6 +54,9 @@ namespace GrapeNotes {
             insert_action_group ("source-view", group);
 
             header_bar.add_css_class ("flat");
+            source_view.buffer.changed.connect (() => {
+                changed = true;
+            });
         }
 
         public void save_note () requires (note != null) {
@@ -61,17 +68,17 @@ namespace GrapeNotes {
             }
         }
 
-        public async void save_note_async () requires (note != null) {
-            var saver = new GtkSource.FileSaver ((GtkSource.Buffer) source_view.buffer, source_file);
+        public inline void save_note_async () requires (note != null) {
+            Thread<void> thread = new Thread<void> ("save_thread", () => {
+                try {
+                    FileUtils.set_contents (note.file.get_path (), source_view.buffer.text);
+                    message ("Nota Guardada");
+                }
+                catch (Error e) {
+                }
+            });
 
-            try {
-                yield saver.save_async (Priority.DEFAULT, null, null);
-            }
-            catch (Error e) {
-                critical (e.message);
-            }
-
-            message ("Nota Guardada");
+            thread.join ();
         }
     }
 }
