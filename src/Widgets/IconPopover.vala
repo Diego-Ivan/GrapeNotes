@@ -17,6 +17,8 @@ namespace GrapeNotes {
         }
 
         construct {
+            autohide = true;
+
             var model = new IconListModel ();
             flow_box.bind_model (model, flow_box_create_func);
 
@@ -28,8 +30,10 @@ namespace GrapeNotes {
             StringObject obj = (StringObject) item;
 
             var button = new Gtk.Button.from_icon_name (obj.str);
+            button.add_css_class ("flat");
             button.clicked.connect (() => {
                 selected_icon = button.icon_name;
+                popdown ();
             });
 
             return button;
