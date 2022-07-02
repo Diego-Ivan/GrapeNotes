@@ -9,3 +9,7 @@ colorcircle {
   border-left-width: 6px;
   border-color: @accent_bg_color;
 }
+
+.popover-menu-button {
+  font-weight: 400;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="GrapeNotesNotePopover" parent="GtkPopover">
+    <property name="has-arrow">false</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+
+        <child>
+          <object class="GtkButton" id="rename_button">
+            <property name="label">Rename Notebook</property>
+            <signal name="clicked" handler="on_rename_button_clicked"/>
+            <style>
+              <class name="flat"/>
+              <class name="popover-menu-button"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -5,18 +5,26 @@ GrapeNotes_sources += [
 
   'ListModels/IconListModel.vala',
 
-  'Widgets/IconPopover.vala',
   'Widgets/MainWindow.vala',
-  'Widgets/NotebookCard.vala',
-  'Widgets/NoteCard.vala',
-  'Widgets/NewNotebookDialog.vala',
-  'Widgets/NewNoteDialog.vala',
 
+  # Note Widgets
+  'Widgets/NewNoteDialog.vala',
+  'Widgets/NoteCard.vala',
+  'Widgets/NotePopover.vala',
+  'Widgets/NoteRenameDialog.vala',
+
+  # Notebook Widgets
+  'Widgets/IconPopover.vala',
+  'Widgets/NewNotebookDialog.vala',
+  'Widgets/NotebookCard.vala',
+
+  # Views
   'Views/NotebookView.vala',
   'Views/NoteSourceView.vala',
   'Views/NoteView.vala',
   'Views/View.vala',
 
+  # Models
   'Models/Note.vala',
   'Models/Notebook.vala',
 ]

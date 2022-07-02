@@ -7,10 +7,13 @@
 
 namespace GrapeNotes {
     public class Note : Object {
-        public File file { get; construct; }
+        public File file { get; set; }
         public string name {
             owned get {
                 return file.get_basename ();
+            }
+            private set {
+                critical ("Notebook name cannot be changed from property");
             }
         }
         public Notebook notebook { get; set; }
@@ -20,6 +23,16 @@ namespace GrapeNotes {
                 file: f,
                 notebook: n
             );
+        }
+
+        public void query_rename (string new_name) throws Error {
+            File? f = File.new_for_path (Path.build_filename (notebook.file.get_path (), new_name));
+            if (f.query_exists ()) {
+                throw new Provider.ProviderError.FILE_ALREADY_EXISTS ("Note already exists");
+            }
+
+            file = file.set_display_name (new_name);
+            notify_property ("name");
         }
     }
 }

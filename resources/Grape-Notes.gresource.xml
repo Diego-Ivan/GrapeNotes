@@ -9,6 +9,8 @@
     <file preprocess="xml-stripblanks">ui/NewNoteDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/NotebookCard.ui</file>
     <file preprocess="xml-stripblanks">ui/NoteCard.ui</file>
+    <file preprocess="xml-stripblanks">ui/NotePopover.ui</file>
+    <file preprocess="xml-stripblanks">ui/NoteRenameDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/NotebookView.ui</file>
     <file preprocess="xml-stripblanks">ui/NoteSourceView.ui</file>
     <file preprocess="xml-stripblanks">ui/NoteView.ui</file>

@@ -53,13 +53,4 @@
       </object>
     </child>
   </template>
-
-  <menu id="action_menu">
-    <section>
-      <item>
-        <attribute name="label">_About Grape-Notes</attribute>
-        <attribute name="action">app.about</attribute>
-      </item>
-    </section>
-  </menu>
 </interface>
