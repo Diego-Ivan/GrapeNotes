@@ -17,38 +17,47 @@ namespace GrapeNotes {
 
         private bool changed { get; set; default = false; }
 
-        private GtkSource.File source_file = new GtkSource.File ();
-
-        private Note? _note;
-        public Note? note {
+        private GtkSource.Buffer buffer {
             get {
-                return _note;
-            }
-            set {
-                if (note != null && changed) {
-                    save_note_async ();
-                }
-
-                _note = value;
-
-                if (note == null) {
-                    empty = true;
-                    return;
-                }
-
-                empty = false;
-                source_file.location = note.file;
-
-                var loader = new GtkSource.FileLoader ((GtkSource.Buffer) source_view.buffer, source_file);
-                loader.load_async.begin (Priority.DEFAULT, null, null, () => {
-                    changed = false;
-                });
+                return (GtkSource.Buffer) source_view.buffer;
             }
         }
 
-        public void remove_note () {
-            _note = null;
-            empty = true;
+        public unowned Note? note { get; set; }
+
+        public async void load_and_save_note (Note? new_note) {
+            if (note != null && changed) {
+                try {
+                    FileUtils.set_contents (note.file.get_path (), source_view.buffer.text);
+                }
+                catch (Error e) {
+                    critical (e.message);
+                }
+
+                message ("Nota Guardada");
+            }
+
+            note = new_note;
+
+            if (note == null) {
+                empty = true;
+                return;
+            }
+
+            empty = false;
+            var source_file = new GtkSource.File () {
+                location = note.file
+            };
+            var loader = new GtkSource.FileLoader (buffer, source_file);
+            message (buffer.ref_count.to_string ());
+
+            try {
+                yield loader.load_async (Priority.DEFAULT, null, null);
+                changed = false; // Setting Changed to null given that the buffer has been changed
+            }
+            catch (Error e) {
+                critical (e.message);
+            }
         }
 
         construct {
@@ -59,14 +68,14 @@ namespace GrapeNotes {
             insert_action_group ("source-view", group);
 
             header_bar.add_css_class ("flat");
-            source_view.buffer.changed.connect (() => {
+            buffer.changed.connect (() => {
                 changed = true;
             });
         }
 
         public void save_note () requires (note != null) {
             try {
-                FileUtils.set_contents (note.file.get_path (), source_view.buffer.text);
+                FileUtils.set_contents (note.file.get_path (), buffer.text);
             }
             catch (Error e) {
                 critical (e.message);

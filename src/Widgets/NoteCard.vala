@@ -12,8 +12,7 @@ namespace GrapeNotes {
         private unowned Gtk.Label title_label;
 
         private NotePopover popover = new NotePopover ();
-
-        private Binding? binding = null;
+        private Gtk.GestureClick click_controller;
 
         private unowned Note _note;
         public unowned Note note {
@@ -22,9 +21,20 @@ namespace GrapeNotes {
             }
             set {
                 _note = value;
-                binding = note.bind_property ("name", title_label, "label", SYNC_CREATE);
-                message (note.ref_count.to_string ());
+                note.bind_property ("name", title_label, "label", SYNC_CREATE);
             }
+        }
+
+        ~NoteCard () {
+            message ("Note card for %s has been destroyed", note.name);
+        }
+
+        protected override void dispose () {
+            base.dispose ();
+
+            popover.set_default_widget (null);
+            popover.unparent ();
+
         }
 
         public NoteCard (Note n) {
@@ -32,7 +42,7 @@ namespace GrapeNotes {
         }
 
         construct {
-            var click_controller = new Gtk.GestureClick () {
+            click_controller = new Gtk.GestureClick () {
                 button = Gdk.BUTTON_SECONDARY
             };
             click_controller.pressed.connect (on_right_click_pressed);

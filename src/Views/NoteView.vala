@@ -10,25 +10,33 @@ namespace GrapeNotes {
     public class NoteView : View {
         [GtkChild]
         private unowned Gtk.ListView list_view;
-        private Gtk.SingleSelection selection_model = new Gtk.SingleSelection (null);
-
         public signal void note_selected (Note? note, bool on_deletion);
 
-        private Notebook? _notebook;
-        public Notebook? notebook {
+        private Gtk.SingleSelection? selection_model = null;
+
+        private unowned Notebook? _notebook;
+        public unowned Notebook? notebook {
             get {
                 return _notebook;
             }
             set {
                 _notebook = value;
-                selection_model.model = notebook.notes;
+                selection_model = new Gtk.SingleSelection (notebook.notes);
+                list_view.model = null;
+                list_view.model = selection_model;
+
+                selection_model.selection_changed.connect (() => {
+                    Note note = (Note) selection_model.model.get_item (selection_model.selected);
+                    note_selected (note, false);
+                });
 
                 notebook.length_changed.connect (check_for_empty_notebook);
                 notebook.loading_completed.connect (() => {
                     select_first_note ();
                 });
+
                 notebook.note_deleted.connect (() => {
-                    message (selection_model.selected.to_string ());
+                    check_for_empty_notebook ();
                     selection_model.select_item (selection_model.selected, true);
                     if (empty) {
                         note_selected (null, true);
@@ -43,16 +51,15 @@ namespace GrapeNotes {
         construct {
             var factory = new Gtk.SignalListItemFactory ();
             factory.bind.connect ((item) => {
-                Note note = (Note) item.item;
+                Note note =  ((Note) item.item);
                 item.child = new NoteCard (note);
             });
-            list_view.factory = factory;
-            list_view.model = selection_model;
 
-            selection_model.selection_changed.connect (() => {
-                Note note = (Note) selection_model.model.get_item (selection_model.selected);
-                note_selected (note, false);
+            factory.unbind.connect ((item) => {
+                item.child.unparent ();
+                item.child.dispose ();
             });
+            list_view.factory = factory;
         }
 
         [GtkCallback]

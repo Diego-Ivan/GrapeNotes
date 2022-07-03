@@ -15,8 +15,8 @@ namespace GrapeNotes {
         [GtkChild]
         private unowned Gtk.Label error_label;
 
-        private Note _note;
-        public Note note {
+        private unowned Note _note;
+        public unowned Note note {
             get {
                 return _note;
             }

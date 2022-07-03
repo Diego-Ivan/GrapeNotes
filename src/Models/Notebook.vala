@@ -145,8 +145,9 @@ namespace GrapeNotes {
                 throw new NotebookError.NOTE_NOT_FOUND ("Note %s was not found in Notebook %s", note.name, name);
             }
 
-            notes.remove (position);
             note.file.trash ();
+            notes.remove (position);
+
             note_deleted ();
         }
 

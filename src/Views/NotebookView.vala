@@ -24,8 +24,8 @@ namespace GrapeNotes {
             }
         }
 
-        private Notebook? _selected_notebook;
-        public Notebook? selected_notebook {
+        private unowned Notebook? _selected_notebook;
+        public unowned Notebook? selected_notebook {
             get {
                 return _selected_notebook;
             }

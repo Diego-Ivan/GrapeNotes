@@ -26,6 +26,10 @@ namespace GrapeNotes {
             notebook.bind_property ("icon-name", icon, "icon-name", SYNC_CREATE);
         }
 
+        ~NotebookCard () {
+            Gtk.StyleContext.remove_provider_for_display (Gdk.Display.get_default (), css_provider);
+        }
+
         construct {
             Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         }

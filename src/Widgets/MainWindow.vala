@@ -29,11 +29,7 @@ namespace GrapeNotes {
 
         [GtkCallback]
         private void on_note_selected (Note? note, bool on_deletion) {
-            if (on_deletion) {
-                source_view.remove_note ();
-                return;
-            }
-            source_view.note = note;
+            source_view.load_and_save_note.begin (note);
         }
 
         [GtkCallback]
