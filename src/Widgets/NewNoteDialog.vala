@@ -13,7 +13,7 @@ namespace GrapeNotes {
         [GtkChild]
         private unowned Gtk.Label error_label;
 
-        public Notebook notebook { get; construct; }
+        public unowned Notebook notebook { get; construct; }
 
         public signal void creation_successful ();
 

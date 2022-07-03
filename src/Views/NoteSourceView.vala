@@ -46,6 +46,11 @@ namespace GrapeNotes {
             }
         }
 
+        public void remove_note () {
+            _note = null;
+            empty = true;
+        }
+
         construct {
             note = null;
 

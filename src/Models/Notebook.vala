@@ -6,6 +6,10 @@
  */
 
 namespace GrapeNotes {
+    public errordomain NotebookError {
+        NOTE_NOT_FOUND
+    }
+
     public class Notebook : Object {
         public File file { get; construct; }
 
@@ -68,6 +72,7 @@ namespace GrapeNotes {
 
         public signal void length_changed ();
         public signal void loading_completed ();
+        public signal void note_deleted ();
 
         public Notebook (File f) {
             Object (file: f);
@@ -131,6 +136,18 @@ namespace GrapeNotes {
             file.set_display_name_async.begin (new_name, Priority.DEFAULT, null, () => {
                 notify_property ("name");
             });
+        }
+
+        public void delete_note (Note note) throws Error {
+            uint position;
+            bool found = notes.find (note, out position);
+            if (!found) {
+                throw new NotebookError.NOTE_NOT_FOUND ("Note %s was not found in Notebook %s", note.name, name);
+            }
+
+            notes.remove (position);
+            note.file.trash ();
+            note_deleted ();
         }
 
         private inline void collect_notes_from_file () throws Error {

@@ -18,6 +18,10 @@ namespace GrapeNotes {
         }
         public Notebook notebook { get; set; }
 
+        ~Note () {
+            message ("A note has been deleted");
+        }
+
         public Note (File f, Notebook n) {
             Object (
                 file: f,
@@ -33,6 +37,10 @@ namespace GrapeNotes {
 
             file = file.set_display_name (new_name);
             notify_property ("name");
+        }
+
+        public void query_trash () throws Error {
+            notebook.delete_note (this);
         }
     }
 }
