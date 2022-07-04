@@ -6,20 +6,16 @@
  */
 
 namespace GrapeNotes {
-    public class Note : Object {
-        public File file { get; set; }
-        public string name {
-            owned get {
-                return file.get_basename ();
+    public class Note : FileWrapper {
+        public Notebook _notebook;
+        public Notebook notebook {
+            get {
+                return _notebook;
             }
-            private set {
-                critical ("Notebook name cannot be changed from property");
+            set {
+                _notebook = value;
+                notebook.path_changed.connect (on_notebook_path_changed);
             }
-        }
-        public Notebook notebook { get; set; }
-
-        ~Note () {
-            message ("A note has been deleted");
         }
 
         public Note (File f, Notebook n) {
@@ -29,7 +25,7 @@ namespace GrapeNotes {
             );
         }
 
-        public void query_rename (string new_name) throws Error {
+        public override void query_rename (string new_name) throws Error {
             File? f = File.new_for_path (Path.build_filename (notebook.file.get_path (), new_name));
             if (f.query_exists ()) {
                 throw new Provider.ProviderError.FILE_ALREADY_EXISTS ("Note already exists");
@@ -39,8 +35,16 @@ namespace GrapeNotes {
             notify_property ("name");
         }
 
-        public void query_trash () throws Error {
+        public override void query_trash () throws Error {
             notebook.delete_note (this);
+        }
+
+        private void on_notebook_path_changed () {
+            File? f = File.new_for_path (Path.build_filename (notebook.file.get_path (), file.get_basename ()));
+            if (f.query_exists ()) {
+                warning ("This path already exists, this action will override contents on file %s", f.get_path ());
+            }
+            file = f;
         }
     }
 }

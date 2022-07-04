@@ -10,18 +10,12 @@ namespace GrapeNotes {
         NOTE_NOT_FOUND
     }
 
-    public class Notebook : Object {
-        public File file { get; construct; }
+    public class Notebook : FileWrapper {
+        public Backpack backpack { get; set; }
 
         private Xml.Doc* metadata_doc = null;
         private Xml.Node* color_node;
         private Xml.Node* icon_node;
-
-        public string name {
-            owned get {
-                return file.get_basename ();
-            }
-        }
 
         private string metadata_path {
             owned get {
@@ -73,6 +67,7 @@ namespace GrapeNotes {
         public signal void length_changed ();
         public signal void loading_completed ();
         public signal void note_deleted ();
+        public signal void path_changed ();
 
         public Notebook (File f) {
             Object (file: f);
@@ -132,9 +127,14 @@ namespace GrapeNotes {
             notes.append (new_note);
         }
 
-        public void rename_notebook (string new_name) throws Error {
+        public override void query_trash () throws Error {
+            backpack.trash_notebook (this);
+        }
+
+        public override void query_rename (string new_name) throws Error {
             file.set_display_name_async.begin (new_name, Priority.DEFAULT, null, () => {
                 notify_property ("name");
+                path_changed ();
             });
         }
 
