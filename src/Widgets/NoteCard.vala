@@ -25,10 +25,6 @@ namespace GrapeNotes {
             }
         }
 
-        ~NoteCard () {
-            message ("Note card for %s has been destroyed", note.name);
-        }
-
         protected override void dispose () {
             base.dispose ();
 

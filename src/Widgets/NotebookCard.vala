@@ -19,19 +19,9 @@ namespace GrapeNotes {
             }
         }
 
-        private Gtk.CssProvider css_provider = new Gtk.CssProvider ();
-
         public NotebookCard (Notebook notebook) {
             notebook.bind_property ("name", this, "title", SYNC_CREATE);
             notebook.bind_property ("icon-name", icon, "icon-name", SYNC_CREATE);
-        }
-
-        ~NotebookCard () {
-            Gtk.StyleContext.remove_provider_for_display (Gdk.Display.get_default (), css_provider);
-        }
-
-        construct {
-            Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
     }
 }

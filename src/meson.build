@@ -25,6 +25,8 @@ GrapeNotes_sources += [
   'Views/View.vala',
 
   # Models
+  'Models/Backpack.vala',
+  'Models/FileWrapper.vala',
   'Models/Note.vala',
   'Models/Notebook.vala',
 ]

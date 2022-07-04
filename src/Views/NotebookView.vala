@@ -13,7 +13,6 @@ namespace GrapeNotes {
 
         public signal void notebook_selected (Notebook notebook);
 
-        private ListStore notebooks = new ListStore (typeof (Notebook));
         private Gtk.SingleSelection selection_model;
 
         private Gtk.CssProvider css_provider = new Gtk.CssProvider ();
@@ -39,9 +38,19 @@ namespace GrapeNotes {
             }
         }
 
+        public Backpack backpack { get; set; }
+
         construct {
+            backpack = new Backpack ();
+            backpack.loading_completed.connect (() => {
+                if (backpack.n_items == 0) {
+                    empty = true;
+                }
+                selected_notebook = (Notebook) backpack.notebooks.get_item (0);
+            });
+
             Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-            selection_model = new Gtk.SingleSelection (notebooks);
+            selection_model = new Gtk.SingleSelection (backpack.notebooks);
 
             var factory = new Gtk.SignalListItemFactory ();
             factory.bind.connect ((item) => {
@@ -53,28 +62,7 @@ namespace GrapeNotes {
             list_view.model = selection_model;
 
             selection_model.selection_changed.connect (() => {
-                selected_notebook = (Notebook) notebooks.get_item (selection_model.selected);
-            });
-
-            Idle.add (() => {
-                try {
-                    string path = Path.build_path (Path.DIR_SEPARATOR_S, Environment.get_user_data_dir (), "Notebooks");
-                    Notebook[] n = Provider.collect_notebooks_from_path (path);
-
-                    for (int i = 0; i < n.length; i++) {
-                        notebooks.append (n[i]);
-                    }
-
-                    if (notebooks.get_n_items () == 0) {
-                        empty = true;
-                    }
-                    selected_notebook = (Notebook) notebooks.get_item (0);
-                }
-                catch (Error e) {
-                    critical (e.message);
-                }
-
-                return Source.REMOVE;
+                selected_notebook = (Notebook) backpack.notebooks.get_item (selection_model.selected);
             });
         }
 
@@ -86,11 +74,9 @@ namespace GrapeNotes {
 
         [GtkCallback]
         private void on_new_notebook_button_clicked () {
-            var dialog = new NewNotebookDialog ((Gtk.Window) get_native ());
-            dialog.notebook_created.connect ((notebook) => {
-                notebooks.append (notebook);
-                selection_model.select_item (notebooks.get_n_items () - 1, false);
-                empty = false;
+            var dialog = new NewNotebookDialog (backpack, (Gtk.Window) get_native ());
+            dialog.creation_successful.connect (() => {
+                selection_model.select_item (backpack.n_items - 1, true);
             });
         }
     }

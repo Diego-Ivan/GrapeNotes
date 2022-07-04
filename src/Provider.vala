@@ -12,6 +12,10 @@ namespace GrapeNotes.Provider {
         FILE_ALREADY_EXISTS
     }
 
+    public errordomain ContainerError {
+        ELEMENT_NOT_EXISTS
+    }
+
     public inline Notebook[] collect_notebooks_from_path (string path) throws Error {
         Notebook[] notebooks = { };
         File folder = File.new_for_path (path);
@@ -33,6 +37,32 @@ namespace GrapeNotes.Provider {
         }
 
         return notebooks;
+    }
+
+    public bool validate_file_title (string filename, out string result) {
+        if (filename == "") {
+            result = "Title is empty";
+            return false;
+        }
+
+        if (filename.contains (".") || filename.contains (Path.DIR_SEPARATOR_S)) {
+            result = "Title cannot contain “.” or “%s” characters".printf (Path.DIR_SEPARATOR_S);
+            return false;
+        }
+
+        if (filename.has_suffix (" ")) {
+            result = "Title cannot have an space at the end";
+            return false;
+        }
+
+        if (filename.has_prefix (" ")) {
+            result = "Title cannot start with an empty space";
+            return false;
+        }
+
+        result = "";
+
+        return true;
     }
 
     public inline File create_file_at_path (string path) throws Error {
