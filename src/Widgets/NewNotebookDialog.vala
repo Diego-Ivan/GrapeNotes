@@ -24,6 +24,7 @@ namespace GrapeNotes {
         public NewNotebookDialog (Backpack b, Gtk.Window parent) {
             Object (backpack: b);
             set_transient_for (parent);
+            modal = true;
         }
 
         static construct {

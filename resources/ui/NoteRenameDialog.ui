@@ -5,7 +5,6 @@
 
   <template class="GrapeNotesNoteRenameDialog" parent="AdwWindow">
     <property name="title"></property>
-    <property name="modal">true</property>
     <property name="default-height">260</property>
     <property name="default-width">355</property>
     <property name="resizable">false</property>

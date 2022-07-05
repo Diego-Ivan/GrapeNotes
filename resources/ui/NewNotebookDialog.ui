@@ -4,7 +4,6 @@
   <requires lib="libadwaita" version="1.0"/>
 
   <template class="GrapeNotesNewNotebookDialog" parent="AdwWindow">
-    <property name="modal">true</property>
     <property name="default-height">260</property>
     <property name="default-width">355</property>
     <property name="resizable">false</property>

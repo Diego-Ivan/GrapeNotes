@@ -15,20 +15,21 @@ namespace GrapeNotes {
         [GtkChild]
         private unowned Gtk.Label error_label;
 
-        private unowned Note _note;
-        public unowned Note note {
+        private unowned FileWrapper _element;
+        public unowned FileWrapper element {
             get {
-                return _note;
+                return _element;
             }
             set {
-                _note = value;
+                _element = value;
                 current_name_label.label = "Rename “%s”".printf (value.name);
             }
         }
 
-        public NoteRenameDialog (Note n, Gtk.Window parent) {
-            Object (note: n);
+        public NoteRenameDialog (FileWrapper n, Gtk.Window parent) {
+            Object (element: n);
             set_transient_for (parent);
+            modal = true;
         }
 
         construct {
@@ -37,23 +38,15 @@ namespace GrapeNotes {
 
         [GtkCallback]
         private void on_rename_button_clicked () {
-            if (title_entry.text == "") {
-                return;
-            }
-
-            if (title_entry.text.contains ("\"")) {
+            string result;
+            if (!Provider.validate_file_title (title_entry.text, out result)) {
                 error_label.visible = true;
-                error_label.label = "Title cannot contain “\"” characters";
-            }
-
-            if (title_entry.text.contains (".") || title_entry.text.contains (Path.DIR_SEPARATOR_S)) {
-                error_label.visible = true;
-                error_label.label = "Title cannot contain “.” or “%s” characters".printf (Path.DIR_SEPARATOR_S);
+                error_label.label = result;
                 return;
             }
 
             try {
-                note.query_rename (title_entry.text);
+                element.query_rename (title_entry.text);
                 close ();
             }
             catch (Error e) {

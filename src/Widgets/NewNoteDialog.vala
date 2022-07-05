@@ -20,6 +20,7 @@ namespace GrapeNotes {
         public class NewNoteDialog (Notebook n, Gtk.Window parent) {
             Object (notebook: n);
             transient_for = parent;
+            modal = true;
         }
 
         construct {
