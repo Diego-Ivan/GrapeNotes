@@ -25,6 +25,10 @@ namespace GrapeNotes {
             }
         }
 
+        // ~NoteCard () {
+        //     message ("Note Card Deleted");
+        // }
+
         protected override void dispose () {
             base.dispose ();
 

@@ -18,6 +18,10 @@ namespace GrapeNotes {
             }
         }
 
+        ~Note () {
+            message ("Note Deleted");
+        }
+
         public Note (File f, Notebook n) {
             Object (
                 file: f,

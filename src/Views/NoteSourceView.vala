@@ -49,7 +49,6 @@ namespace GrapeNotes {
                 location = note.file
             };
             var loader = new GtkSource.FileLoader (buffer, source_file);
-            message (buffer.ref_count.to_string ());
 
             try {
                 yield loader.load_async (Priority.DEFAULT, null, null);
