@@ -44,11 +44,7 @@ namespace GrapeNotes {
         }
 
         private void on_notebook_path_changed () {
-            File? f = File.new_for_path (Path.build_filename (notebook.file.get_path (), file.get_basename ()));
-            if (f.query_exists ()) {
-                warning ("This path already exists, this action will override contents on file %s", f.get_path ());
-            }
-            file = f;
+            file = File.new_for_path (Path.build_filename (notebook.file.get_path (), file.get_basename ()));
         }
     }
 }

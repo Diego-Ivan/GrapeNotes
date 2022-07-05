@@ -132,10 +132,9 @@ namespace GrapeNotes {
         }
 
         public override void query_rename (string new_name) throws Error {
-            file.set_display_name_async.begin (new_name, Priority.DEFAULT, null, () => {
-                notify_property ("name");
-                path_changed ();
-            });
+            file = file.set_display_name (new_name);
+            path_changed ();
+            notify_property ("name");
         }
 
         public void delete_note (Note note) throws Error {
