@@ -11,7 +11,18 @@ namespace GrapeNotes {
         [GtkChild]
         private unowned Gtk.FlowBox flow_box;
 
-        public string selected_icon { get; private set; }
+        public signal void icon_selected (string icon);
+
+        private string _selected_icon;
+        public string selected_icon {
+            get {
+                return _selected_icon;
+            }
+            set {
+                _selected_icon = value;
+                icon_selected (value);
+            }
+        }
 
         public IconPopover () {
         }

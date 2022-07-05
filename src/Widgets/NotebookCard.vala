@@ -60,7 +60,7 @@ namespace GrapeNotes {
         }
 
         private void on_asked_edit () {
-            message ("Asked Edit");
+            new EditNotebookDialog (notebook, (Gtk.Window) get_root ());
         }
 
         private void on_asked_trash () {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="GrapeNotesEditNotebookDialog" parent="GrapeNotesEditWrapperDialog">
+    <child type="prefix">
+      <object class="GtkMenuButton" id="icon_button">
+        <property name="popover">
+          <object class="GrapeNotesIconPopover" id="icon_popover">
+            <signal name="icon_selected" handler="on_icon_selected"/>
+          </object>
+        </property>
+      </object>
+    </child>
+
+    <child type="suffix">
+      <object class="GtkColorButton" id="color_button"></object>
+    </child>
+  </template>
+</interface>

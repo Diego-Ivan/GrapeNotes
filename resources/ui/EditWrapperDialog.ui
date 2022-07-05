@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="GrapeNotesEditWrapperDialog" parent="AdwWindow">
+    <property name="title">Edit</property>
+    <property name="default-height">260</property>
+    <property name="default-width">355</property>
+    <property name="resizable">false</property>
+
+    <!-- Shortcut Controllers -->
+    <child>
+      <object class="GtkShortcutController">
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">&lt;Control&gt;w</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkShortcut">
+            <property name="trigger">Escape</property>
+            <property name="action">action(window.close)</property>
+          </object>
+        </child>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+
+        <child>
+          <object class="GtkHeaderBar">
+            <style>
+              <class name="flat"/>
+            </style>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="vexpand">true</property>
+            <property name="valign">center</property>
+            <property name="halign">center</property>
+            <property name="width-request">332</property>
+            <property name="spacing">6</property>
+            <property name="margin-start">6</property>
+            <property name="margin-end">6</property>
+
+            <child>
+              <object class="GtkBox" id="elements_box">
+                <property name="orientation">horizontal</property>
+                <style>
+                  <class name="linked"/>
+                </style>
+                <child>
+                  <object class="GtkEntry" id="title_entry">
+                    <property name="hexpand">true</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="edit_button">
+                <property name="label">Edit</property>
+                <signal name="clicked" handler="on_edit_button_clicked"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="error_label">
+                <property name="visible">false</property>
+                <property name="wrap">true</property>
+                <property name="wrap-mode">word</property>
+                <style>
+                  <class name="error"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
+</interface>

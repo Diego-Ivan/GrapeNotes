@@ -56,7 +56,7 @@ namespace GrapeNotes {
         }
 
         private void on_asked_rename () {
-            new NoteRenameDialog (note, (Gtk.Window) get_root ());
+            new EditWrapperDialog (note, (Gtk.Window) get_root ());
         }
 
         private void on_asked_trash () {
