@@ -58,6 +58,11 @@ namespace GrapeNotes {
                 item.child = new NotebookCard (notebook);
             });
 
+            factory.unbind.connect ((item) => {
+                item.child.unparent ();
+                item.child.dispose ();
+            });
+
             list_view.factory = factory;
             list_view.model = selection_model;
 

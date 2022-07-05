@@ -16,6 +16,7 @@ GrapeNotes_sources += [
   # Notebook Widgets
   'Widgets/IconPopover.vala',
   'Widgets/NewNotebookDialog.vala',
+  'Widgets/NotebookPopover.vala',
   'Widgets/NotebookCard.vala',
 
   # Views

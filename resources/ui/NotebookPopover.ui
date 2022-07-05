@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.2"/>
+  <requires lib="libadwaita" version="1.0"/>
+
+  <template class="GrapeNotesNotebookPopover" parent="GtkPopover">
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+
+        <child>
+          <object class="GtkButton" id="edit_button">
+            <property name="label">Edit Notebook</property>
+            <signal name="clicked" handler="on_edit_button_clicked"/>
+            <style>
+              <class name="flat"/>
+              <class name="popover-menu-button"/>
+            </style>
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkButton" id="trash_button">
+            <property name="label">Send to trash</property>
+            <signal name="clicked" handler="on_trash_button_clicked"/>
+            <style>
+              <class name="flat"/>
+              <class name="popover-menu-button"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
