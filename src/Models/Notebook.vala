@@ -166,6 +166,7 @@ namespace GrapeNotes {
                 if ((content_type == "text/plain" || content_type == "text/markdown") && (!hidden)) {
                     notes.append (new Note (child, this));
                     message (info.get_name ());
+                    continue;
                 }
 
                 if ((content_type == "application/xml" || content_type == "text/xml") && info.get_name () == "metadata.xml") {
@@ -184,8 +185,8 @@ namespace GrapeNotes {
                 Xml.Node* root_element = new Xml.Node (null, "metadata");
                 metadata_doc->set_root_element (root_element);
 
-                color_node = root_element->new_text_child (null, "color", "");
-                icon_node = root_element->new_text_child (null, "icon", "");
+                color_node = root_element->new_text_child (null, "color", "#1c71d8");
+                icon_node = root_element->new_text_child (null, "icon", "notepad-symbolic");
 
                 metadata_doc->save_file (metadata_path);
                 return;
