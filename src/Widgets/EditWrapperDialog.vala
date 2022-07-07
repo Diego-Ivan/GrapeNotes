@@ -36,18 +36,30 @@ namespace GrapeNotes {
 
         construct {
             present ();
+            title_entry.grab_focus ();
         }
 
         [GtkCallback]
         protected virtual void on_edit_button_clicked () {
+            string title = title_entry.text;
+            if (title == "") {
+                title = title_entry.placeholder_text;
+            }
+
             string result;
-            if (!Provider.validate_file_title (title_entry.text, out result)) {
+            if (!Provider.validate_file_title (title, out result)) {
                 display_error (result);
                 return;
             }
 
+            if (title == element.name) {
+                message ("Mismo Título");
+                close ();
+                return;
+            }
+
             try {
-                element.query_rename (title_entry.text);
+                element.query_rename (title);
                 close ();
             }
             catch (Error e) {
