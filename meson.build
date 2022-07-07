@@ -14,12 +14,18 @@ app_id = 'io.github.diegoivan.Grape-Notes'
 app_name = meson.project_name()
 
 conf_data = configuration_data()
-conf_data.set('APP_ID', app_id)
-conf_data.set('APP_PATH', '/' + app_id.replace('.', '/') + '/')
-conf_data.set('APP_NAME', app_name)
-
-conf_data.set('APP_TITLE', app_title)
-conf_data.set('APP_SUMMARY', app_summary)
+conf_data.set_quoted('APP_ID', app_id)
+conf_data.set_quoted('APP_PATH', '/' + app_id.replace('.', '/') + '/')
+conf_data.set_quoted('APP_NAME', app_name)
+conf_data.set_quoted('G_LOG_DOMAIN', 'GrapeNotes')
+conf_data.set_quoted('APP_TITLE', app_title)
+conf_data.set_quoted('APP_SUMMARY', app_summary)
+configure_file(output: 'config.h', configuration: conf_data)
+add_project_arguments(
+    '-include', 'config.h',
+    '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
+    language: 'c'
+)
 
 GrapeNotes_sources = []
 
