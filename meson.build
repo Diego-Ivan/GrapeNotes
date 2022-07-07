@@ -21,6 +21,7 @@ conf_data.set_quoted('G_LOG_DOMAIN', 'GrapeNotes')
 conf_data.set_quoted('APP_TITLE', app_title)
 conf_data.set_quoted('APP_SUMMARY', app_summary)
 configure_file(output: 'config.h', configuration: conf_data)
+
 add_project_arguments(
     '-include', 'config.h',
     '-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
