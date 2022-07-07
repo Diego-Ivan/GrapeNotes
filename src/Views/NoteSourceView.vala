@@ -70,6 +70,12 @@ namespace GrapeNotes {
             buffer.changed.connect (() => {
                 changed = true;
             });
+
+            var style_manager = Adw.StyleManager.get_default ();
+            style_manager.notify["dark"].connect (on_style_changed);
+            on_style_changed ();
+
+            buffer.language = GtkSource.LanguageManager.get_default ().get_language ("markdown");
         }
 
         public void save_note () requires (note != null) {
@@ -92,6 +98,14 @@ namespace GrapeNotes {
             });
 
             thread.join ();
+        }
+
+        private void on_style_changed () {
+            if (Adw.StyleManager.get_default ().dark) {
+                buffer.style_scheme = GtkSource.StyleSchemeManager.get_default ().get_scheme ("Adwaita-dark");
+                return;
+            }
+            buffer.style_scheme = GtkSource.StyleSchemeManager.get_default ().get_scheme ("Adwaita");
         }
     }
 }
