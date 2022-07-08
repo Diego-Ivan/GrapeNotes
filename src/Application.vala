@@ -45,6 +45,7 @@ namespace GrapeNotes {
 
         protected override void startup () {
             base.startup ();
+            GtkSource.init ();
 
             add_action_entries (ACTION_ENTRIES, this);
 
