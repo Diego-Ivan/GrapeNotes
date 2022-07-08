@@ -40,23 +40,6 @@ libadwaita_dep = dependency('libadwaita-1',
   required: false,
 )
 
-if not libadwaita_dep.found()
-  libadwaita = subproject(
-    'libadwaita',
-    default_options: [
-        'examples=false',
-       f'package_subdir=@app_name@',
-        'tests=false'
-    ]
-  )
-  libadwaita_dep = declare_dependency(
-    dependencies: [
-        libadwaita.get_variable('libadwaita_dep'),
-        libadwaita.get_variable('libadwaita_vapi')
-    ]
-  )
-endif
-
 GrapeNotes_deps = [
     dependency('gio-2.0', version: '>= 2.50'),
     dependency('gtk4', version: '>= 4.2'),

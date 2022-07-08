@@ -1,14 +1,10 @@
 desktop_file = i18n.merge_file(
-  input: configure_file(
-    input: f'@app_id@.desktop.in.in',
-    output: f'@app_id@.desktop.in',
-    configuration: conf_data
-  ),
-  output: f'@app_id@.desktop',
+  input: 'io.github.diegoivan.Grape-Notes.desktop.in.in',
+  output: 'io.github.diegoivan.Grape-Notes.desktop.in',
   type: 'desktop',
-  po_dir: '..' / 'po',
+  po_dir: '../po',
   install: true,
-  install_dir: get_option('datadir') / 'applications'
+  install_dir: join_paths(get_option('datadir'), 'applications')
 )
 
 desktop_utils = find_program('desktop-file-validate', required: false)
@@ -19,15 +15,11 @@ if desktop_utils.found()
 endif
 
 appstream_file = i18n.merge_file(
-  input: configure_file(
-    input: f'@app_id@.appdata.xml.in.in',
-    output: f'@app_id@.appdata.xml.in',
-    configuration: conf_data
-  ),
-  output: f'@app_id@.appdata.xml',
+  input: 'io.github.diegoivan.Grape-Notes.appdata.xml.in.in',
+  output: 'io.github.diegoivan.Grape-Notes.appdata.xml',
   po_dir: '../po',
   install: true,
-  install_dir: get_option('datadir') / 'appdata'
+  install_dir: join_paths(get_option('datadir'), 'appdata')
 )
 
 appstream_util = find_program('appstream-util', required: false)
@@ -37,17 +29,14 @@ if appstream_util.found()
   )
 endif
 
-gschema_file = configure_file(
-  input: f'@app_id@.gschema.xml.in',
-  output: f'@app_id@.gschema.xml',
-  configuration: conf_data,
-  install_dir: get_option('datadir') / 'glib-2.0' / 'schemas'
+install_data('io.github.diegoivan.Grape-Notes.gschema.xml',
+  install_dir: join_paths(get_option('datadir'), 'glib-2.0/schemas')
 )
 
 compile_schemas = find_program('glib-compile-schemas', required: false)
 if compile_schemas.found()
   test('Validate schema file', compile_schemas,
-    args: ['--strict', '--dry-run', meson.current_build_dir()]
+    args: ['--strict', '--dry-run', meson.current_source_dir()]
   )
 endif
 

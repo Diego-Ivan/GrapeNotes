@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="io.github.diegoivan.Grape-Notes" path="/io/github/diegoivan/Grape-Notes/">
+    <key name="font" type="s">
+      <default>'Monospace 12'</default>
+      <description>Font and Size</description>
+    </key>
+
+    <key name="theme" type="s">
+      <default>'Adwaita'</default>
+      <description>GtkSource scheme id</description>
+    </key>
+  </schema>
+</schemalist>
