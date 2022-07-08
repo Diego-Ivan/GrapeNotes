@@ -2,10 +2,12 @@ GrapeNotes_sources += [
   'Application.vala',
   'Provider.vala',
   'XmlUtils.vala',
+  'CssUtils.vala',
 
   'ListModels/IconListModel.vala',
 
   'Widgets/MainWindow.vala',
+  'Widgets/PreferencesWindow.vala',
   'Widgets/EditWrapperDialog.vala',
 
   # Note Widgets
@@ -25,6 +27,9 @@ GrapeNotes_sources += [
   'Views/NoteSourceView.vala',
   'Views/NoteView.vala',
   'Views/View.vala',
+
+  # Services
+  'Services/StyleManager.vala',
 
   # Models
   'Models/Backpack.vala',

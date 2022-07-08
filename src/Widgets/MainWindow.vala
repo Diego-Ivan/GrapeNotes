@@ -13,6 +13,12 @@ namespace GrapeNotes {
         [GtkChild]
         private unowned NoteSourceView source_view;
 
+        public StyleManager style { get; set; default = StyleManager.get_default (); }
+
+        private const ActionEntry[] WIN_ACTIONS = {
+            { "preferences", on_preferences_action }
+        };
+
         static construct {
             typeof (NotebookView).ensure ();
         }
@@ -20,6 +26,17 @@ namespace GrapeNotes {
             Object (
                 application: app
             );
+        }
+
+        construct {
+            var action_group = new SimpleActionGroup ();
+            action_group.add_action_entries (WIN_ACTIONS, this);
+
+            insert_action_group ("win", action_group);
+        }
+
+        private void on_preferences_action () {
+            new PreferencesWindow (this);
         }
 
         [GtkCallback]
